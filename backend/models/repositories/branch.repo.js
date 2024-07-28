@@ -15,9 +15,10 @@ const getBranchByFields = async (fields, selectedOption = {}) => {
 };
 
 const getBranchById = async (branchId, selectedOption = {}) => {
-  const branch = await BranchModel.findOne({ _id: branchId, isDelete: false })
-    .select(selectedOption)
-    .lean();
+  const branch = await BranchModel.findOne({
+    _id: branchId,
+    isDelete: false,
+  }).select(selectedOption);
 
   return branch;
 };

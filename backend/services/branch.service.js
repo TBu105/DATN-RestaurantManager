@@ -48,6 +48,10 @@ class BranchService {
       throw new BadRequest("There is not branch with this id");
     }
 
+    // test the virtual field in mongoose
+    // if you use lean() you can't use the virtual field
+    // console.log(branch);
+
     return branch;
   }
 
@@ -91,7 +95,8 @@ class BranchService {
   async updateBranchById(branchId, branchUpdateData) {
     isValidObjectId(branchId);
 
-    const validUpdatedData = removeNullUndefinedFields(branchUpdateData);
+    const removeNullData = removeNullUndefinedFields(branchUpdateData);
+    const { isDelete, ...validUpdateData } = removeNullData;
 
     const branch = await getBranchById(branchId);
 
@@ -99,7 +104,7 @@ class BranchService {
       throw new BadRequest("Branch not found");
     }
 
-    const updatedBranch = await updateBranchById(branchId, validUpdatedData);
+    const updatedBranch = await updateBranchById(branchId, validUpdateData);
 
     return updatedBranch;
   }

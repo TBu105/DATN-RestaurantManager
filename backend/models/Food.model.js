@@ -9,11 +9,17 @@ const FoodSchema = new mongoose.Schema(
     description: { type: String },
     price: { type: Number, required: [true, "Please enter food price"] },
     category: { type: String, required: [true, "Please enter food category"] },
-    branch: {
+    branchId: {
       type: [Schema.Types.ObjectId],
       ref: "Branch",
       required: [true, "Please enter branch id"],
     },
+    // Thêm nó sau khi ta tạo authen
+    // userId: {
+    //   type: [Schema.Types.ObjectId],
+    //   ref: "User",
+    //   required: [true, "Please enter user id"],
+    // },
     status: {
       type: String,
       enum: ["best seller", "new", "loved", "normal"],
