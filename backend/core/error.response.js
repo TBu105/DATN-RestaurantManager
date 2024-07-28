@@ -1,4 +1,4 @@
-const {HttpStatusCodes} = require('../config/http.status.config')
+const HttpStatusCodes = require("../config/http.status.config");
 
 class ErrorResponse extends Error {
   constructor(message, status) {
@@ -158,20 +158,20 @@ class RequestTimeout extends ErrorResponse {
 }
 
 module.exports = {
-    Forbidden,
-    Conflict,
-    NotFound,
-    Unauthorized,
-    InternalServerError,
-    BadRequest,
-    MethodNotAllowed,
-    UnsupportedMediaType,
-    TooManyRequests,
-    GatewayTimeout,
-    ServiceUnavailable,
-    NotImplemented,
-    LengthRequired,
-    PayloadTooLarge,
-    PreconditionFailed,
-    RequestTimeout,
-}
+  Forbidden,
+  Conflict,
+  NotFound,
+  Unauthorized,
+  InternalServerError,
+  BadRequest,
+  MethodNotAllowed,
+  UnsupportedMediaType,
+  TooManyRequests,
+  GatewayTimeout,
+  ServiceUnavailable,
+  NotImplemented,
+  LengthRequired,
+  PayloadTooLarge,
+  PreconditionFailed,
+  RequestTimeout,
+};

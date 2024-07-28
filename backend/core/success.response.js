@@ -12,14 +12,14 @@ class SuccessResponse {
     this.metadata = metadata;
   }
 
-  send(res, headers = {}) {
+  send(res) {
     return res.status(this.status).json(this);
   }
 }
 
 class Ok extends SuccessResponse {
-  constructor(message, metadata = {}) {
-    super(message, (metadata = {}));
+  constructor(message, metadata) {
+    super(message, metadata );
   }
 }
 
@@ -28,13 +28,13 @@ class Created extends SuccessResponse {
     message,
     statusCode = HttpStatusCodes.CREATED.code,
     reasonStatusCode = HttpStatusCodes.CREATED.reason,
-    metadata = {}
+    metadata
   ) {
     super(
       message,
       (statusCode = HttpStatusCodes.CREATED.code),
       (reasonStatusCode = HttpStatusCodes.CREATED.reason),
-      (metadata = {})
+      metadata
     );
   }
 }
