@@ -48,4 +48,8 @@ const FoodSchema = new mongoose.Schema(
   }
 );
 
+//index
+FoodSchema.index({ name: "text" });
+FoodSchema.index({ category: 1 });
+
 module.exports = mongoose.model(DOCUMENT_NAME, FoodSchema);
