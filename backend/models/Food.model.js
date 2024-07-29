@@ -25,6 +25,14 @@ const FoodSchema = new mongoose.Schema(
       enum: ["best seller", "new", "loved", "normal"],
       default: "normal",
     },
+    thumbnail: {
+      type: String,
+      required: [true, "Please provide thumbnail"],
+    },
+    photos: {
+      type: Array,
+      required: [true, "Please provide photos"],
+    },
     isDisable: {
       type: Boolean,
       default: false,
