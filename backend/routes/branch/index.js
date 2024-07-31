@@ -1,22 +1,29 @@
 const express = require("express");
 const router = express.Router();
 const asyncHandler = require("../../middleware/async.handler.middleware");
-const branchController = require("../../controllers/branch.controller");
+const bindClassMethod = require("../../utils/bind.class.method.util");
+const { get } = require("../../config/containers/container.di");
 
-router.post("/", asyncHandler(branchController.createBranch));
-router.get("/", asyncHandler(branchController.getBranches));
+const branchController = get("branchController");
+const boundBranchController = bindClassMethod(branchController);
 
-router.get("/branch/:branchId", asyncHandler(branchController.getBranchById));
+router.post("/", asyncHandler(boundBranchController.createBranch));
+router.get("/", asyncHandler(boundBranchController.getBranches));
+
+router.get(
+  "/branch/:branchId",
+  asyncHandler(boundBranchController.getBranchById)
+);
 router.patch(
   "/branch/:branchId",
-  asyncHandler(branchController.updateBranchById)
+  asyncHandler(boundBranchController.updateBranchById)
 );
 
 router.patch(
   "/branch/delete/:branchId",
-  asyncHandler(branchController.deleteBranchById)
+  asyncHandler(boundBranchController.deleteBranchById)
 );
 
-router.get("/branch", asyncHandler(branchController.getBranchByFields));
+router.get("/branch", asyncHandler(boundBranchController.getBranchByFields));
 
 module.exports = router;

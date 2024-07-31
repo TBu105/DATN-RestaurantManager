@@ -1,65 +1,66 @@
-const BranchModel = require("../Branch.model");
+class BranchRepository {
+  constructor(branchModel) {
+    this.branchModel = branchModel;
+  }
 
-const createBranch = async (branchData) => {
-  const newBranch = await BranchModel.create(branchData);
+  async createBranch(branchData) {
+    const newBranch = await this.branchModel.create(branchData);
 
-  return newBranch;
-};
+    return newBranch;
+  }
 
-const getBranchByFields = async (fields, selectedOption = {}) => {
-  const branch = await BranchModel.findOne(fields, { isDelete: false })
-    .select(selectedOption)
-    .lean();
+  async getBranchByFields(fields, selectedOption = {}) {
+    const branch = await this.branchModel
+      .findOne(fields, { isDelete: false })
+      .select(selectedOption)
+      .lean();
 
-  return branch;
-};
+    return branch;
+  }
 
-const getBranchById = async (branchId, selectedOption = {}) => {
-  const branch = await BranchModel.findOne({
-    _id: branchId,
-    isDelete: false,
-  }).select(selectedOption);
+  async getBranchById(branchId, selectedOption = {}) {
+    const branch = await this.branchModel
+      .findOne({
+        _id: branchId,
+        isDelete: false,
+      })
+      .select(selectedOption);
 
-  return branch;
-};
+    return branch;
+  }
 
-const getBranches = async (filter, options, selectedFields = {}) => {
-  const { page, limit } = options;
+  async getBranches(filter, options, selectedFields = {}) {
+    const { page, limit } = options;
 
-  const branch = await BranchModel.find(filter, { isDelete: false })
-    .select(selectedFields)
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .lean();
+    const branch = await this.branchModel
+      .find(filter, { isDelete: false })
+      .select(selectedFields)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .lean();
 
-  return branch;
-};
+    return branch;
+  }
 
-const deleteBranchById = async (branchId) => {
-  const branch = await BranchModel.findOneAndUpdate(
-    { _id: branchId },
-    { isDelete: true },
-    { new: true }
-  );
+  async deleteBranchById(branchId) {
+    const branch = await this.branchModel.findOneAndUpdate(
+      { _id: branchId },
+      { isDelete: true },
+      { new: true }
+    );
 
-  return branch;
-};
+    return branch;
+  }
 
-const updateBranchById = async (branchId, validUpdatedData) => {
-  const branch = await BranchModel.findOneAndUpdate(
-    { _id: branchId },
-    validUpdatedData,
-    { new: true }
-  );
+  async UpdateBranchById(branchId, validUpdatedData) {
+    const branch = await this.BranchModel.findOneAndUpdate(
+      { _id: branchId },
+      validUpdatedData,
+      { new: true }
+    );
 
-  return branch;
-};
+    return branch;
+  }
+}
 
-module.exports = {
-  createBranch,
-  getBranchByFields,
-  getBranchById,
-  getBranches,
-  deleteBranchById,
-  updateBranchById,
-};
+module.exports = BranchRepository;

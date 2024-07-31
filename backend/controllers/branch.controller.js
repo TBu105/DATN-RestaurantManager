@@ -1,25 +1,28 @@
 const { Created, Ok } = require("../core/success.response");
-const branchService = require("../services/branch.service");
 
 class BranchController {
+  constructor(branchService) {
+    this.branchService = branchService;
+  }
+
   async createBranch(req, res) {
     new Created({
       message: "Create new branch successfully",
-      metadata: await branchService.createBranch(req.body),
+      metadata: await this.branchService.createBranch(req.body),
     }).send(res);
   }
 
   async getBranchById(req, res) {
     new Ok({
       message: "Get branch by Id successfully",
-      metadata: await branchService.getBranchById(req.params.branchId),
+      metadata: await this.branchService.getBranchById(req.params.branchId),
     }).send(res);
   }
 
   async getBranchByFields(req, res) {
     new Ok({
       message: "Get branch by name successfully",
-      metadata: await branchService.getBranchByFields(req.query),
+      metadata: await this.branchService.getBranchByFields(req.query),
     }).send(res);
   }
 
@@ -31,21 +34,21 @@ class BranchController {
 
     new Ok({
       message: "Get branches by filter successfully",
-      metadata: await branchService.getBranches(filter, options),
+      metadata: await this.branchService.getBranches(filter, options),
     }).send(res);
   }
 
   async deleteBranchById(req, res) {
     new Ok({
       message: "Deleted branch by id successfully",
-      metadata: await branchService.deleteBranchById(req.params.branchId),
+      metadata: await this.branchService.deleteBranchById(req.params.branchId),
     }).send(res);
   }
 
   async updateBranchById(req, res) {
     new Ok({
       message: "Update branch by id successfully",
-      metadata: await branchService.updateBranchById(
+      metadata: await this.branchService.updateBranchById(
         req.params.branchId,
         req.body
       ),
@@ -53,4 +56,4 @@ class BranchController {
   }
 }
 
-module.exports = new BranchController();
+module.exports = BranchController;
