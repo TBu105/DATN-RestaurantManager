@@ -1,5 +1,5 @@
 const { Forbidden } = require("../core/error.response");
-const verifyToken = require("./verify.token.middlware");
+const verifyToken = require("./verify.token.middleware");
 
 function authorize(roles = null) {
   return [
@@ -7,8 +7,9 @@ function authorize(roles = null) {
     (req, res, next) => {
       if (roles === null) return next();
 
+      console.log("req.user.role: authorize", req.user.role);
       const allowedRoles = Array.isArray(roles) ? roles : [roles];
-      if (allowedRoles.includes(req.employee.role)) {
+      if (allowedRoles.includes(req.user.role)) {
         return next();
       }
 
@@ -17,4 +18,4 @@ function authorize(roles = null) {
   ];
 }
 
-module.exports = authorize
+module.exports = authorize;

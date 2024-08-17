@@ -1,24 +1,11 @@
-/**
- * createBranch [Admin- Manager]
- * updateBranchById [Admin- Manager]
- * deleteBranchById [Admin- Manager]
- * getBranchById [Admin- Manager]
- * getBranchByName [Admin- Manager]
- * getAllBranches [Admin- Manager]
- *
- */
-
 const { BadRequest } = require("../core/error.response");
 const removeNullUndefinedFields = require("../utils/remove.null.fields.util");
 const isValidObjectId = require("../utils/valid.object.id.util");
+const branchRepo = require("../models/repositories/branch.repo");
 
 class BranchService {
-  constructor(branchRepo) {
-    this.branchRepo = branchRepo;
-  }
-
   async createBranch(branchData) {
-    const existBranch = await this.branchRepo.getBranchByFields({
+    const existBranch = await branchRepo.getBranchByFields({
       name: branchData.name,
     });
 
@@ -26,7 +13,7 @@ class BranchService {
       throw new BadRequest("This branch name is already taken");
     }
 
-    const newBranch = await this.branchRepo.createBranch(branchData);
+    const newBranch = await branchRepo.createBranch(branchData);
 
     if (!newBranch) {
       throw new BadRequest("Fail to create new branch");
@@ -40,10 +27,7 @@ class BranchService {
 
     const selectedOptions = "-isDelete -isPublic";
 
-    const branch = await this.branchRepo.getBranchById(
-      branchId,
-      selectedOptions
-    );
+    const branch = await branchRepo.getBranchById(branchId, selectedOptions);
 
     if (!branch) {
       throw new BadRequest("There is not branch with this id");
@@ -59,10 +43,7 @@ class BranchService {
   async getBranchByFields(query) {
     const selectedOptions = "-isDelete -isPublic";
 
-    const branch = await this.branchRepo.getBranchByFields(
-      query,
-      selectedOptions
-    );
+    const branch = await branchRepo.getBranchByFields(query, selectedOptions);
     if (!branch) {
       throw new BadRequest("Branch not found with this query");
     }
@@ -73,7 +54,7 @@ class BranchService {
     filter = { isDelete: false, ...filter };
     const selectedOptions = "-isDelete -isPublic";
 
-    const branches = await this.branchRepo.getBranches(
+    const branches = await branchRepo.getBranches(
       filter,
       options,
       selectedOptions
@@ -89,13 +70,13 @@ class BranchService {
   async deleteBranchById(branchId) {
     isValidObjectId(branchId);
 
-    const branch = await this.branchRepo.getBranchById(branchId);
+    const branch = await branchRepo.getBranchById(branchId);
 
     if (!branch) {
       throw new BadRequest("Branch not found");
     }
 
-    const deletedBranch = await this.branchRepo.deleteBranchById(branchId);
+    const deletedBranch = await branchRepo.deleteBranchById(branchId);
 
     return deletedBranch;
   }
@@ -106,13 +87,13 @@ class BranchService {
     const removeNullData = removeNullUndefinedFields(branchUpdateData);
     const { isDelete, ...validUpdateData } = removeNullData;
 
-    const branch = await this.branchRepo.getBranchById(branchId);
+    const branch = await branchRepo.getBranchById(branchId);
 
     if (!branch) {
       throw new BadRequest("Branch not found");
     }
 
-    const updatedBranch = await this.branchRepo.updateBranchById(
+    const updatedBranch = await branchRepo.updateBranchById(
       branchId,
       validUpdateData
     );
@@ -121,4 +102,4 @@ class BranchService {
   }
 }
 
-module.exports = BranchService;
+module.exports = new BranchService();

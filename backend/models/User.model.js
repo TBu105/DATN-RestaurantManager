@@ -5,23 +5,36 @@ const COLLECTION_NAME = "Users";
 
 const UserSchema = new mongoose.Schema(
   {
-    role: {
-      type: String,
-      enum: ["manager", "waiter", "chef", "cashier"],
-      required: [true, "Please provide role"],
-    },
-    branch: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Branch",
-      required: [true, "Please provide branch"],
-    },
     username: {
       type: String,
       required: [true, "Please provide username"],
+      unique: [true, "This username is already exists"],
+      trim: true,
+      lowercase: true,
     },
     password: {
       type: String,
       required: [true, "Please provide password"],
+      minlength: [8, "Password must be at least 8 characters long"],
+    },
+    role: {
+      type: String,
+      enum: ["manager", "branchManager", "staff", "cooker", "cashier"],
+      // required: [true, "Please provide user role"],
+      default: "staff",
+    },
+    photo: {
+      type: String,
+      // required: [true, "Please provide user photo"],
+    },
+    branchId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Branch",
+      // required: [true, "Please provide branchId"],
+    },
+    isDelete: {
+      type: Boolean,
+      default: false,
     },
   },
   {

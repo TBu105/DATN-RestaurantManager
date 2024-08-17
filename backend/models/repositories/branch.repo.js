@@ -1,16 +1,14 @@
-class BranchRepository {
-  constructor(branchModel) {
-    this.branchModel = branchModel;
-  }
+const branchModel = require("../Branch.model")
 
+class BranchRepository {
   async createBranch(branchData) {
-    const newBranch = await this.branchModel.create(branchData);
+    const newBranch = await branchModel.create(branchData);
 
     return newBranch;
   }
 
   async getBranchByFields(fields, selectedOption = {}) {
-    const branch = await this.branchModel
+    const branch = await branchModel
       .findOne(fields, { isDelete: false })
       .select(selectedOption)
       .lean();
@@ -19,7 +17,7 @@ class BranchRepository {
   }
 
   async getBranchById(branchId, selectedOption = {}) {
-    const branch = await this.branchModel
+    const branch = await branchModel
       .findOne({
         _id: branchId,
         isDelete: false,
@@ -32,7 +30,7 @@ class BranchRepository {
   async getBranches(filter, options, selectedFields = {}) {
     const { page, limit } = options;
 
-    const branch = await this.branchModel
+    const branch = await branchModel
       .find(filter, { isDelete: false })
       .select(selectedFields)
       .skip((page - 1) * limit)
@@ -43,7 +41,7 @@ class BranchRepository {
   }
 
   async deleteBranchById(branchId) {
-    const branch = await this.branchModel.findOneAndUpdate(
+    const branch = await branchModel.findOneAndUpdate(
       { _id: branchId },
       { isDelete: true },
       { new: true }
@@ -53,7 +51,7 @@ class BranchRepository {
   }
 
   async UpdateBranchById(branchId, validUpdatedData) {
-    const branch = await this.BranchModel.findOneAndUpdate(
+    const branch = await BranchModel.findOneAndUpdate(
       { _id: branchId },
       validUpdatedData,
       { new: true }
@@ -63,4 +61,4 @@ class BranchRepository {
   }
 }
 
-module.exports = BranchRepository;
+module.exports = new BranchRepository();
