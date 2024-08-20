@@ -30,7 +30,7 @@ class KeyTokenService {
       data
     );
 
-    console.log("updateKeyToken:key token service", updateKeyToken);
+    // console.log("updateKeyToken:key token service", updateKeyToken);
 
     return updateKeyToken;
   }

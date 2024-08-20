@@ -15,12 +15,14 @@ class AuthenticationService {
   async register(userData) {
     // userData = {username, password}
 
+    console.log("userData:", userData);
+
     const user = await userRepo.findUserByFields({
       username: userData.username,
     });
 
     if (user) {
-      throw new BadRequest("User already exist hehe");
+      throw new BadRequest("User already exist");
     }
 
     const hashedPassword = await hashPassword(userData.password);
@@ -50,7 +52,7 @@ class AuthenticationService {
   async login({ username, password }) {
     const user = await userRepo.findUserByFields({ username });
 
-    console.log("user:auth service", user);
+    // console.log("user:auth service", user);
 
     if (!user) {
       throw new BadRequest("There is no user exits under this username");
@@ -77,12 +79,14 @@ class AuthenticationService {
       "7d"
     );
 
+    // console.log("refreshToken:auth service", refreshToken);
+
     const updateKeyToken = await keyTokenService.updateKeyTokenByUserId(
       user._id,
-      refreshToken
+      { refreshToken }
     );
 
-    console.log("updateKeyToken:auth service", updateKeyToken);
+    // console.log("updateKeyToken:auth service", updateKeyToken);
 
     if (!updateKeyToken) {
       throw new BadRequest("Failed to update key token");
@@ -102,6 +106,8 @@ class AuthenticationService {
     if (!refreshToken) throw new BadRequest("Refresh token is required");
 
     const decoded = decode(refreshToken); // Decode without verification to get userId
+
+    console.log("decoded: ", decoded);
 
     const keyToken = await keyTokenService.getKeyTokenByFields({
       userId: decoded.userId,

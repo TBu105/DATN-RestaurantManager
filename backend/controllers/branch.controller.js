@@ -2,6 +2,8 @@ const { Created, Ok } = require("../core/success.response");
 const branchService = require("../services/branch.service");
 
 class BranchController {
+
+  
   async createBranch(req, res) {
     new Created({
       message: "Create new branch successfully",
