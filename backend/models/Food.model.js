@@ -5,21 +5,19 @@ const COLLECTION_NAME = "Foods";
 
 const FoodSchema = new mongoose.Schema(
   {
-    name: { type: String, required: [true, "Please enter food name"] },
+    name: {
+      type: String,
+      required: [true, "Please enter food name"],
+      unique: true,
+    },
     description: { type: String },
     price: { type: Number, required: [true, "Please enter food price"] },
     category: { type: String, required: [true, "Please enter food category"] },
-    branchId: {
-      type: [Schema.Types.ObjectId],
-      ref: "Branch",
-      required: [true, "Please enter branch id"],
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      // required: [true, "Please enter user id"],
     },
-    // Thêm nó sau khi ta tạo authen
-    // userId: {
-    //   type: [Schema.Types.ObjectId],
-    //   ref: "User",
-    //   required: [true, "Please enter user id"],
-    // },
     status: {
       type: String,
       enum: ["best seller", "new", "loved", "normal"],
@@ -27,11 +25,11 @@ const FoodSchema = new mongoose.Schema(
     },
     thumbnail: {
       type: String,
-      required: [true, "Please provide thumbnail"],
+      // required: [true, "Please provide thumbnail"],
     },
     photos: {
-      type: Array,
-      required: [true, "Please provide photos"],
+      type: [String],
+      // required: [true, "Please provide photos"],
     },
     isDisable: {
       type: Boolean,

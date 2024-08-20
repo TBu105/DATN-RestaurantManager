@@ -17,6 +17,8 @@ class KeyTokenRepository {
   }
 
   async updateKeyTokenByUserId(userId, data) {
+    console.log('data: key repo', data);
+    
     const updateToken = await keyTokenModel.findOneAndUpdate({ userId }, data, {
       new: true,
     });

@@ -1,8 +1,10 @@
-const branchModel = require("../Branch.model")
+const branchModel = require("../Branch.model");
 
 class BranchRepository {
   async createBranch(branchData) {
     const newBranch = await branchModel.create(branchData);
+
+    console.log("newBranch: repo", newBranch);
 
     return newBranch;
   }

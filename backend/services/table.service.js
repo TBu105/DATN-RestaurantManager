@@ -4,10 +4,10 @@ const isValidObjectId = require("../utils/valid.object.id.util");
 const tableRepo = require("../models/repositories/table.repo");
 
 class TableService {
-    async createTable(tableData) {
+    async createTable(tableData, userData) {
+        tableData = { ...tableData, userId: userData.userId }
         const existTable = await tableRepo.getTableByFields({
             number: tableData.number,
-            branchId: tableData.branchId,
         });
 
         if (existTable) {
@@ -26,7 +26,7 @@ class TableService {
     async getTableById(tableId) {
         isValidObjectId(tableId);
 
-        //const selectedOptions = "-isDelete -isPublic";
+        const selectedOptions = "-isDelete";
 
         const table = await tableRepo.getTableById(tableId, selectedOptions);
 
@@ -39,7 +39,7 @@ class TableService {
 
     async getTableByFields(query) {
 
-        //const selectedOptions = "-isDelete -isPublic";
+        const selectedOptions = "-isDelete";
 
         const table = await tableRepo.getTableByFields(query, selectedOptions);
         if (!table) {
@@ -49,14 +49,14 @@ class TableService {
     }
 
     async getTables(filter = {}, options = {}) {
-        //filter = { isDelete: false, ...filter };
+        filter = { isDelete: false, ...filter };
 
-        //const selectedOptions = "-isDelete -isPublic";
+        const selectedOptions = "-isDelete";
 
         const tables = await tableRepo.getTables(
             filter,
             options,
-            
+            selectedOptions
         );
 
         if (!tables) {

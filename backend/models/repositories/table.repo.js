@@ -2,6 +2,7 @@ const tableModel = require("../Table.model");
 
 class TableRepository {
   async createTable(tableData) {
+    console.log(tableData);
     const newTable = await tableModel.create(tableData);
     return newTable;
   }
@@ -19,7 +20,7 @@ class TableRepository {
     const table = await tableModel
       .findOne({
         _id: tableId,
-        //isDelete: false,
+        isDelete: false,
       })
       .select(selectedOption);
 

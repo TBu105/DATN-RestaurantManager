@@ -6,4 +6,5 @@ router.use("/users", require("./user/index"));
 router.use("/branches", require("./branch/index"));
 router.use("/uploads", require("./upload/index"));
 router.use("/tables", require("./table/index"));
+router.use("/foods", require("./food/index"));
 module.exports = router;

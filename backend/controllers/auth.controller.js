@@ -12,6 +12,9 @@ class AuthController {
   async login(req, res) {
     const token = await authService.login(req.body);
 
+    console.log('token: ', token);
+    
+
     res.cookie("refreshToken", token.refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "prod",

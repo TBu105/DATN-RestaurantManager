@@ -17,7 +17,7 @@ const TableSchema = new mongoose.Schema(
             ref: "Branch",
             required: [true, "Please provide branch id"],
         },
-        creatorName: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: [true, "Please provide creator name"],

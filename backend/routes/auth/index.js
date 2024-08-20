@@ -4,12 +4,20 @@ const asyncHandler = require("../../middleware/async.handler.middleware");
 const { uploadDisk } = require("../../config/multer.config");
 const authController = require("../../controllers/auth.controller");
 
-router.post("/register", asyncHandler(authController.createUser));
+router.post(
+  "/register",
+  uploadDisk.none(),
+  asyncHandler(authController.createUser)
+);
 
-router.post("/login", asyncHandler(authController.login));
+router.post("/login", uploadDisk.none(), asyncHandler(authController.login));
 
-router.post("/logout", asyncHandler(authController.logout));
+router.post("/logout", uploadDisk.none(), asyncHandler(authController.logout));
 
-router.post("/refresh-token", asyncHandler(authController.refreshAccessToken));
+router.post(
+  "/refresh-token",
+  uploadDisk.none(),
+  asyncHandler(authController.refreshAccessToken)
+);
 
 module.exports = router;

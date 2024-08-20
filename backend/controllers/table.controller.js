@@ -3,9 +3,11 @@ const tableService = require("../services/table.service");
 
 class TableController {
   async createTable(req, res) {
+    console.log("Body", req.body);
+
     new Created({
       message: "Create new table successfully",
-      metadata: await tableService.createTable(req.body),
+      metadata: await tableService.createTable(req.body, req.user),
     }).send(res);
   }
 
@@ -37,16 +39,6 @@ class TableController {
 
   async deleteTableById(req, res) {
     // Lấy tham số confirmDelete từ query string
-    const confirmDelete = req.query.confirmDelete === "true";
-
-    if (!confirmDelete) {
-      return res.status(400).json({
-        success: false,
-        message: "Delete operation not confirmed. Please confirm deletion.",
-      });
-    }
-
-    // Thực hiện xóa nếu người dùng đã xác nhận
     new Ok({
       message: "Deleted table by id successfully",
       metadata: await tableService.deleteTableById(req.params.tableId),
@@ -56,21 +48,21 @@ class TableController {
 
   async updateTableById(req, res) {
     const { name, status } = req.body; // Lấy giá trị name và status từ request body
-    
+
     // Tạo đối tượng chứa dữ liệu cần update
     const updateData = {};
     if (name !== undefined) updateData.name = name;
     if (status !== undefined) updateData.status = status;
-  
+
     // Gọi service để update dữ liệu
     const updatedTable = await tableService.updateTableById(req.params.tableId, updateData);
-  
+
     new Ok({
       message: "Update table by id successfully",
       metadata: updatedTable,
     }).send(res);
   }
-  
+
 }
 
 module.exports = new TableController();

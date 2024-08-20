@@ -26,6 +26,8 @@ const UserSchema = new mongoose.Schema(
     photo: {
       type: String,
       // required: [true, "Please provide user photo"],
+      default:
+        "https://res.cloudinary.com/deou3ybsb/image/upload/c_fill,h_300,w_300/v1/food/soclablwb0nm5ogpyucx.jpg?_a=BAMCg+WI0",
     },
     branchId: {
       type: mongoose.Schema.Types.ObjectId,
